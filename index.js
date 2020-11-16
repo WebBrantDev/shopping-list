@@ -13,8 +13,8 @@ function addNewItem(newItem) {
 }
 
 function handleNewItem() {
-  $("#js-shopping-list-form").submit(function (event) {
-    event.preventDefault();
+  $("#js-shopping-list-form").submit((e) => {
+    e.preventDefault();
     const newItem = $("#shopping-list-entry").val();
     $("#shopping-list-entry").val("");
     addNewItem(newItem);
@@ -25,7 +25,7 @@ function handleItemCheckClicked() {
   $(".shopping-list").on("click", ".shopping-item-toggle", (e) => {
     $(e.currentTarget)
       .closest("li")
-      .children()
+      .children() // .closest kept giving me errors so I had to use this workaround
       .filter("span")
       .toggleClass("shopping-item__checked");
   });
@@ -33,7 +33,7 @@ function handleItemCheckClicked() {
 
 function handleItemDeleted() {
   $(".shopping-list").on("click", ".shopping-item-delete", (e) => {
-    $(e.currentTarget).closest("li").remove();
+    $(e.currentTarget).closest("li").remove(); // worked fine down here though
   });
 }
 
