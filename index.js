@@ -36,7 +36,7 @@ function renderShoppingList() {
 }
 
 function addNewItem(itemName) {
-  STORE.push({ name: itemName, checked: false });
+  STORE.push({ id: cuid(), name: itemName, checked: false });
 }
 
 function handleNewItem() {
