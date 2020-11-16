@@ -6,7 +6,8 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-button, input[type="text"] {
+button,
+input[type="text"] {
   padding: 5px;
 }
 
@@ -28,7 +29,7 @@ button:hover {
   padding-left: 0;
 }
 
-.shopping-list > li {
+.shopping-list>li {
   margin-bottom: 20px;
   border: 1px solid grey;
   padding: 20px;
