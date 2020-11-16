@@ -1,25 +1,25 @@
 const STORE = [
-  { name: "apples", checked: false },
-  { name: "oranges", checked: false },
-  { name: "milk", checked: true },
-  { name: "bread", checked: false },
+  { id: cuid(), name: "apples", checked: false },
+  { id: cuid(), name: "oranges", checked: false },
+  { id: cuid(), name: "milk", checked: true },
+  { id: cuid(), name: "bread", checked: false },
 ];
 
 function generateItemElement(item, index, temp) {
   return `
-  <li>
-    <span class="shopping-item js-shopping-item ${
-      item.checked ? "shopping-item__checked" : ""
-    }">${item.name}</span>
-    <div class="shopping-item-controls">
-      <button class="shopping-item-toggle js-item-toggle">
-          <span class="button-label">check</span>
-      </button>
-      <button class="shopping-item-delete js-item-delete">
-          <span class="button-label">delete</span>
-      </button>
-    </div>
-  </li>`;
+    <li data-item-id="${item.id}">
+      <span class="shopping-item js-shopping-item ${
+        item.checked ? "shopping-item__checked" : ""
+      }">${item.name}</span>
+      <div class="shopping-item-controls">
+        <button class="shopping-item-toggle js-item-toggle">
+            <span class="button-label">check</span>
+        </button>
+        <button class="shopping-item-delete js-item-delete">
+            <span class="button-label">delete</span>
+        </button>
+      </div>
+    </li>`;
 }
 
 function generateShoppingItemsString(shoppingList) {
@@ -49,9 +49,33 @@ function handleNewItem() {
   });
 }
 
+function getItemIdFromElement(item) {
+  return $(item).closest("li").data("item-id");
+}
+
+function toggleChecked(id) {
+  const item = STORE.find((item) => item.id === id);
+  item.checked = !item.checked;
+}
+
 function handleItemCheckClicked() {
   $(".shopping-list").on("click", ".js-item-toggle", (event) => {
-    console.log("ran");
+    const id = getItemIdFromElement(event.currentTarget);
+    toggleChecked(id);
+    renderShoppingList();
+  });
+}
+
+function deleteItem(itemId) {
+  const itemInd = STORE.findIndex((item) => item.id === itemId);
+  STORE.splice(itemInd, 1);
+}
+
+function handleItemDeleted() {
+  $(".shopping-list").on("click", ".js-item-delete", (e) => {
+    const itemId = getItemIdFromElement(e.currentTarget);
+    deleteItem(itemId);
+    renderShoppingList();
   });
 }
 
@@ -59,6 +83,7 @@ function handler() {
   renderShoppingList();
   handleNewItem();
   handleItemCheckClicked();
+  handleItemDeleted();
 }
 
 $(handler);
